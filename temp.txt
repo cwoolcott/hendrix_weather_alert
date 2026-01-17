@@ -1,1 +1,78 @@
-lets try Electron but I want to be sure the audio still works
+If the kiosk browser comes up but the page is blank / won’t load, 99% of the time the systemd service is pointing at the wrong folder (still /home/pi/weather-siren), so Node never starts.
+
+Since your folder is hendrix_weather_alert, do these checks/fixes.
+
+1) Confirm the server is actually down
+
+On the Pi:
+
+systemctl status weather-siren --no-pager
+
+
+If it says “failed” or “could not be found”, check logs:
+
+journalctl -u weather-siren -n 200 --no-pager
+
+2) Confirm the folder + server file exist
+ls -la /home/pi/hendrix_weather_alert
+ls -la /home/pi/hendrix_weather_alert/server.js
+
+
+If server.js is in a different place (like src/server.js), that matters.
+
+3) Fix the systemd service to use the right folder
+
+Open the service file:
+
+sudo nano /etc/systemd/system/weather-siren.service
+
+
+Update these two lines to match your folder:
+
+WorkingDirectory=/home/pi/hendrix_weather_alert
+ExecStart=/usr/bin/node /home/pi/hendrix_weather_alert/server.js
+
+
+Save, then reload systemd + restart:
+
+sudo systemctl daemon-reload
+sudo systemctl restart weather-siren
+sudo systemctl status weather-siren --no-pager
+
+4) If it still won’t start, the log will tell us exactly why
+
+Run:
+
+journalctl -u weather-siren -n 200 --no-pager
+
+
+Common errors you’ll see:
+
+“Cannot find module …” → npm install not run in that folder
+
+“node: not found” → wrong node path
+
+Permission errors → wrong user or file ownership
+
+5) Confirm Node is installed and where it is
+which node
+node -v
+
+
+If which node is not /usr/bin/node, update ExecStart to the path it prints.
+
+6) Make sure dependencies are installed in the correct folder
+cd /home/pi/hendrix_weather_alert
+npm install
+sudo systemctl restart weather-siren
+
+7) Quick “is it listening?” test
+curl -I http://localhost:3000
+
+
+You want an HTTP response (200/304/etc). If curl can’t connect, Node isn’t running.
+
+If you paste the output of these two commands, I’ll tell you the exact fix line-by-line:
+
+systemctl status weather-siren --no-pager
+journalctl -u weather-siren -n 80 --no-pager
