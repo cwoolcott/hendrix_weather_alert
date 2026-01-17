@@ -1,9 +1,9 @@
-body { font-family: system-ui, sans-serif; margin: 0; }
+body { font-family: system-ui, sans-serif; margin: 0; background-image: url('bgimage.png'); background-size: 100%; background-attachment: fixed; color: #222; }
 .wrap { padding: 16px; }
 .big { font-size: 28px; padding: 18px 22px; width: 100%; }
 .cards { display: grid;     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; gap: 10px; }
-.card { border: 1px solid #ddd; border-radius: 12px; padding: 12px; }
+.card { border: 1px solid #ddd; border-radius: 12px; padding: 12px; background-color: #ddd;}
 .title { font-weight: 700; margin-bottom: 6px; }
 .alerts { display: grid; gap: 10px; }
 .alert { border: 2px solid #c00; border-radius: 12px; padding: 12px; }
@@ -44,10 +44,10 @@ body { font-family: system-ui, sans-serif; margin: 0; }
   margin-top: 6px;
 }
 .logo {
-  width: 200px;
+  width: 300px;
   display: block;
   margin: 16px auto;
 }
 
 .testButtons { display: grid;     grid-template-columns: 1fr 1fr 1fr 1fr; justify-items: center; gap: 10px; }
-.testBtn { display:inline-block; font-size: 22px; padding: 14px; width: 100%; max-width: 200px; }
+.testBtn { display:inline-block; font-size: 22px; padding: 14px; width: 100%; max-width: 200px; background-color: #9fafaa;}
