@@ -4,25 +4,25 @@ module.exports = {
     {
       key: "tornado_warning",
       label: "Tornado Warning",
-      wav: "tornado.wav",
+      wav: "eas-alarm.wav",
       match: { event: "Tornado Warning" }
     },
     {
       key: "severe_thunderstorm_warning",
       label: "Severe Thunderstorm Warning",
-      wav: "thunder.wav",
+      wav: "eas-alarm.wav",
       match: { event: "Severe Thunderstorm Warning" }
     },
     {
       key: "flash_flood_warning",
       label: "Flash Flood Warning",
-      wav: "flood.wav",
+      wav: "eas-alarm.wav",
       match: { event: "Flash Flood Warning" }
     },
     {
       key: "flood_warning",
       label: "Flood Warning",
-      wav: "flood_long.wav",
+      wav: "eas-alarm.wav",
       match: { event: "Flood Warning" }
     }
   ]
