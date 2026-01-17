@@ -13,9 +13,8 @@ const io = new Server(server);
 app.use(express.static("public"));
 
 // Set your location
-const LAT = 41.8781;  // example: Chicago
-const LON = -87.6298;
-
+const LAT = 35.98;  // Fairview
+const LON = -87.12;
 let lastEmergencyState = false;
 
 async function refreshWeather() {
