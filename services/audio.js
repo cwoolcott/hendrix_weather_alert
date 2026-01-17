@@ -1,34 +1,27 @@
 // services/audio.js
+const { spawn } = require("child_process");
 const path = require("path");
-const Player = require("node-aplay"); // WAV playback via aplay
 
-let current = null;
-let isPlaying = false;
+let playing = false;
 
 function playSiren() {
-  if (isPlaying) return;
-  isPlaying = true;
+  if (playing) return;
+  playing = true;
 
-  const file = path.join(__dirname, "..", "sounds", "siren.wav");
-  current = new Player(file);
+  const soundFile = path.join(__dirname, "..", "sounds", "eas-alarm.wav");
 
-  current.on("complete", () => {
-    isPlaying = false;
-    current = null;
+  const player =
+    process.platform === "darwin"
+      ? spawn("afplay", [soundFile])        // macOS
+      : spawn("aplay", [soundFile]);        // Raspberry Pi / Linux
+
+  player.on("exit", () => {
+    playing = false;
   });
 
-  current.on("error", () => {
-    isPlaying = false;
-    current = null;
+  player.on("error", () => {
+    playing = false;
   });
-
-  current.play();
 }
 
-function stopSiren() {
-  // node-aplay doesn’t have a universal stop across all setups;
-  // easiest approach for science fair: keep siren short and replay if needed.
-  // If you want real stop, we can switch to spawning `aplay` as a child_process.
-}
-
-module.exports = { playSiren, stopSiren };
+module.exports = { playSiren };
