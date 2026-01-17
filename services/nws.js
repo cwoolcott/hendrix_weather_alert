@@ -22,7 +22,8 @@ async function getForecast(lat, lon) {
     temperature: p.temperature,
     temperatureUnit: p.temperatureUnit,
     shortForecast: p.shortForecast,
-    windSpeed: p.windSpeed
+    windSpeed: p.windSpeed,
+    icon: p.icon 
   }));
 }
 

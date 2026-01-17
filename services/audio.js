@@ -2,26 +2,28 @@
 const { spawn } = require("child_process");
 const path = require("path");
 
-let playing = false;
+let currentProcess = null;
 
-function playSiren() {
-  if (playing) return;
-  playing = true;
+function playWav(filename) {
+  // Stop anything already playing (optional but nice for testing)
+  if (currentProcess) {
+    try { currentProcess.kill(); } catch {}
+    currentProcess = null;
+  }
 
-  const soundFile = path.join(__dirname, "..", "sounds", "eas-alarm.wav");
+  const soundFile = path.join(__dirname, "..", "sounds", filename);
+  const cmd = process.platform === "darwin" ? "afplay" : "aplay";
+  const args = process.platform === "darwin" ? [soundFile] : ["-q", soundFile];
 
-  const player =
-    process.platform === "darwin"
-      ? spawn("afplay", [soundFile])        // macOS
-      : spawn("aplay", [soundFile]);        // Raspberry Pi / Linux
+  currentProcess = spawn(cmd, args);
 
-  player.on("exit", () => {
-    playing = false;
+  currentProcess.on("exit", () => {
+    currentProcess = null;
   });
 
-  player.on("error", () => {
-    playing = false;
+  currentProcess.on("error", () => {
+    currentProcess = null;
   });
 }
 
-module.exports = { playSiren };
+module.exports = { playWav };

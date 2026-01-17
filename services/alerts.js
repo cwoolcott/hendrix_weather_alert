@@ -2,21 +2,13 @@
 async function fetchJson(url) {
   const res = await fetch(url, {
     headers: {
-      "User-Agent": "ScienceFairWeatherSiren/1.0 (local project)",
+      "User-Agent": "ScienceFairWeatherSiren/1.0 (parent-child-project)",
       "Accept": "application/geo+json"
     }
   });
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
   return res.json();
 }
-
-// You can tune this list to your comfort level
-const EMERGENCY_EVENTS = new Set([
-  "Tornado Warning",
-  "Severe Thunderstorm Warning",
-  "Flash Flood Warning",
-  "Flood Warning"
-]);
 
 async function getActiveAlerts(lat, lon) {
   const data = await fetchJson(`https://api.weather.gov/alerts/active?point=${lat},${lon}`);
@@ -25,6 +17,7 @@ async function getActiveAlerts(lat, lon) {
   const alerts = features.map(f => {
     const p = f.properties || {};
     return {
+      id: f.id || p.id || `NWS-${Date.now()}`,
       event: p.event,
       severity: p.severity,
       urgency: p.urgency,
@@ -32,8 +25,7 @@ async function getActiveAlerts(lat, lon) {
     };
   });
 
-  const emergency = alerts.some(a => EMERGENCY_EVENTS.has(a.event) && a.urgency !== "Future");
-  return { alerts, emergency };
+  return { alerts };
 }
 
 module.exports = { getActiveAlerts };

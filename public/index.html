@@ -7,18 +7,23 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <img src="hwa_logo.png" alt="Hendrix Weather Alert" class="logo" />
     <div class="wrap">
       <h1>Weather Dashboard</h1>
 
-      <button id="test" class="big">TEST SIREN</button>
+      <button id="test" class="big" style="display: none;">TEST SIREN</button>
+        <h2 style="display: none;">Test Alerts</h2>
+        <div id="testButtons" class="testButtons"></div>
 
-      <div id="status" class="status"></div>
 
-      <h2>Forecast</h2>
-      <div id="forecast" class="cards"></div>
+      <div id="status" class="status" style="display: none;"></div>
 
       <h2>Active Alerts</h2>
       <div id="alerts" class="alerts"></div>
+      
+      <h2>Forecast</h2> 
+        <div id="forecast" class="cards"><div class="ok">Loading forecast…</div></div>
+      
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
