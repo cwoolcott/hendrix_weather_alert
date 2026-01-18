@@ -1,4 +1,24 @@
-#!/bin/bash
-sleep 5
-cd /home/pi/hendrix_weather_alert
-/usr/bin/node server.js >> /home/pi/weather-server.log 2>&1
+2) Make it executable (required)
+chmod +x /home/pi/start-weather-server.sh
+
+3) Tell the desktop to run it on boot
+
+Create an autostart entry:
+
+mkdir -p /home/pi/.config/autostart
+nano /home/pi/.config/autostart/weather-server.desktop
+
+
+Paste:
+
+[Desktop Entry]
+Type=Application
+Name=Weather Server
+Exec=/home/pi/start-weather-server.sh
+X-GNOME-Autostart-enabled=true
+
+
+Save and exit.
+
+4) Reboot and verify
+sudo reboot
