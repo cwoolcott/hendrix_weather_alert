@@ -1,44 +1,4 @@
-EASIEST + RELIABLE METHOD
-Start server.js from desktop autostart (same environment as Chromium)
-1) Create a tiny start script
-
-This ensures the correct Node binary is used.
-
-nano /home/pi/start-weather-server.sh
-
-
-Paste:
-
 #!/bin/bash
+sleep 5
 cd /home/pi/hendrix_weather_alert
 /usr/bin/node server.js >> /home/pi/weather-server.log 2>&1
-
-
-Make it executable:
-
-chmod +x /home/pi/start-weather-server.sh
-
-
-If which node is NOT /usr/bin/node, replace that path with the output of which node.
-
-2) Add it to desktop autostart
-
-Create autostart entry:
-
-mkdir -p ~/.config/autostart
-nano ~/.config/autostart/weather-server.desktop
-
-
-Paste:
-
-[Desktop Entry]
-Type=Application
-Name=Weather Server
-Exec=/home/pi/start-weather-server.sh
-X-GNOME-Autostart-enabled=true
-
-3) Reboot and verify
-sudo reboot
-
-
-After reboot, test:
