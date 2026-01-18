@@ -1,29 +1,17 @@
-// services/audio.js
 const { spawn } = require("child_process");
 const path = require("path");
 
-let currentProcess = null;
-
 function playWav(filename) {
-  // Stop anything already playing (optional but nice for testing)
-  if (currentProcess) {
-    try { currentProcess.kill(); } catch {}
-    currentProcess = null;
-  }
-
   const soundFile = path.join(__dirname, "..", "sounds", filename);
-  const cmd = process.platform === "darwin" ? "afplay" : "aplay";
-  const args = process.platform === "darwin" ? [soundFile] : ["-q", soundFile];
+  console.log("Playing WAV:", soundFile);
 
-  currentProcess = spawn(cmd, args);
+  const p = spawn("aplay", ["-q", soundFile]);
 
-  currentProcess.on("exit", () => {
-    currentProcess = null;
-  });
+  p.stdout.on("data", d => console.log("aplay out:", d.toString()));
+  p.stderr.on("data", d => console.log("aplay err:", d.toString()));
 
-  currentProcess.on("error", () => {
-    currentProcess = null;
-  });
+  p.on("error", err => console.log("aplay spawn error:", err));
+  p.on("close", code => console.log("aplay exit code:", code));
 }
 
 module.exports = { playWav };
