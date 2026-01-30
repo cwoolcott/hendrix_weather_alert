@@ -46,7 +46,7 @@ body { font-family: system-ui, sans-serif; margin: 0; background-image: url('bgi
 .logo {
   width: 300px;
   display: block;
-  margin: 16px auto;
+  margin: 10px auto;
 }
 
 .testButtons { display: grid;     grid-template-columns: 1fr 1fr 1fr 1fr; justify-items: center; gap: 10px; }
